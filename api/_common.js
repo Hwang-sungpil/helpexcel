@@ -1,0 +1,6 @@
+import crypto from 'node:crypto';
+export function sign(payload){const secret=process.env.FEEDBACK_SIGNING_SECRET;if(!secret)return null;const data=Buffer.from(JSON.stringify(payload)).toString('base64url');const sig=crypto.createHmac('sha256',secret).update(data).digest('base64url');return data+'.'+sig}
+export function verify(token){try{const [data,sig]=String(token||'').split('.');if(!data||!sig||!process.env.FEEDBACK_SIGNING_SECRET)return null;const expected=crypto.createHmac('sha256',process.env.FEEDBACK_SIGNING_SECRET).update(data).digest('base64url');if(sig.length!==expected.length||!crypto.timingSafeEqual(Buffer.from(sig),Buffer.from(expected)))return null;const p=JSON.parse(Buffer.from(data,'base64url').toString());return p.exp>Date.now()?p:null}catch{return null}}
+export function clean(value,max=1900){return String(value||'').replace(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g,'[이메일 삭제]').replace(/\b01[016789][- ]?\d{3,4}[- ]?\d{4}\b/g,'[전화번호 삭제]').replace(/\b\d{6}[- ]?[1-4]\d{6}\b/g,'[주민번호 삭제]').replace(/\b(?:\d[ -]?){13,19}\b/g,'[번호 삭제]').replace(/(?:AIza[0-9A-Za-z_-]{25,}|sk-[0-9A-Za-z_-]{20,})/g,'[API 키 삭제]').trim().slice(0,max)}
+export const rich=(s)=>[{text:{content:clean(s,1900)}}];
+export function getText(p){return p?.title?.map(x=>x.plain_text).join('')||p?.rich_text?.map(x=>x.plain_text).join('')||p?.select?.name||''}
