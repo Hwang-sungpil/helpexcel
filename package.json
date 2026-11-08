@@ -1,0 +1,1 @@
+{"name":"help-excel-hangul","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"vercel dev"},"engines":{"node":">=20"},"dependencies":{"exceljs":"^4.4.0","jszip":"^3.10.1"}}
