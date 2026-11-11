@@ -1,1 +1,0 @@
-Help 엑셀·한글 공유자료 조회 복구\n\n1. 압축 해제 후 api, public 폴더 및 루트 파일을 GitHub 저장소 최상위에 업로드합니다.\n2. Vercel 최신 커밋 배포 Ready / Production을 확인합니다.\n3. https://helpexcel.vercel.app/api/share-list 에서 JSON 응답을 확인합니다.\n4. NOTION_TOKEN과 NOTION_PROBLEMS_DATA_SOURCE_ID가 Production 환경에 등록되어야 합니다.\n5. 공유 목록 표시와 실제 파일 다운로드는 별개입니다. 과거에 Notion 행만 생성한 경우 파일 재등록이 필요할 수 있습니다.\n
